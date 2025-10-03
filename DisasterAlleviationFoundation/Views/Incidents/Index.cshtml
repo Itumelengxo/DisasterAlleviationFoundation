@@ -1,0 +1,23 @@
+﻿@model IEnumerable<DisasterAlleviationFoundation.Models.Incident>
+@{
+    ViewData["Title"] = "Incidents";
+}
+
+<h2>Incidents</h2>
+<a class="btn btn-success mb-3" asp-action="Create">Report Incident</a>
+
+<table class="table">
+    <thead><tr><th>Type</th><th>Location</th><th>Reported At</th><th>By</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.Type</td>
+                <td>@i.Location</td>
+                <td>@i.ReportedAt.ToLocalTime()</td>
+                <td>@i.ReportedBy</td>
+                <td><a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@i.Id">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

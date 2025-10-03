@@ -1,0 +1,26 @@
+﻿@model DisasterAlleviationFoundation.Models.UserModel
+@{
+    ViewData["Title"] = "Profile";
+}
+<h2>Profile (session only)</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Full name</label>
+        <input class="form-control" name="fullName" value="@Model.FullName" />
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input class="form-control" name="email" value="@Model.Email" />
+    </div>
+    <div class="mb-3">
+        <label>Phone</label>
+        <input class="form-control" name="phone" value="@Model.Phone" />
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success mt-2">@ViewBag.Message</div>
+}

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<DisasterAlleviationFoundation.Models.Donation>
+<h2>Donations</h2>
+<a class="btn btn-success mb-3" asp-action="Create">Add Donation</a>
+
+<table class="table">
+    <thead><tr><th>Donor</th><th>Resource</th><th>Qty/Amount</th><th>Date</th></tr></thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.DonorName</td>
+                <td>@d.ResourceType</td>
+                <td>@(d.Amount.HasValue? d.Amount.Value.ToString("C") : d.Quantity.ToString())</td>
+                <td>@d.CreatedAt.ToLocalTime()</td>
+            </tr>
+        }
+    </tbody>
+</table>

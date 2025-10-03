@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DisasterAlleviationFoundation.Models.Volunteer>
+
+@{
+    ViewData["Title"] = "Volunteers";
+}
+
+<h2>Registered Volunteers</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Register as Volunteer</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FullName)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Skills)</th>
+            <th>@Html.DisplayNameFor(model => model.Availability)</th>
+            <th>@Html.DisplayNameFor(model => model.EmergencyContact)</th>
+            <th>@Html.DisplayNameFor(model => model.Address)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.FullName</td>
+                    <td>@item.Email</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Skills</td>
+                    <td>@item.Availability</td>
+                    <td>@item.EmergencyContact</td>
+                    <td>@item.Address</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">No volunteers have registered yet.</td>
+            </tr>
+        }
+    </tbody>
+</table>

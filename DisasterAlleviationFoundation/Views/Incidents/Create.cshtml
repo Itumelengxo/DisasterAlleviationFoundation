@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Report Incident";
+}
+<h2>Report Incident</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Type (Flood, Fire...)</label>
+        <input class="form-control" name="type" />
+    </div>
+    <div class="mb-3">
+        <label>Location</label>
+        <input class="form-control" name="location" />
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" name="description"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mt-2">@ViewBag.Error</div>
+}

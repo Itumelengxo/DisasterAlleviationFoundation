@@ -1,0 +1,20 @@
+﻿@model DisasterAlleviationFoundation.Models.Volunteer
+<h2>My Volunteer Profile</h2>
+<dl class="row">
+    <dt class="col-sm-3">Username</dt>
+    <dd class="col-sm-9">@Model.Username</dd>
+    <dt class="col-sm-3">Skills</dt>
+    <dd class="col-sm-9">@Model.Skills</dd>
+    <dt class="col-sm-3">Availability</dt>
+    <dd class="col-sm-9">@Model.Availability</dd>
+    <dt class="col-sm-3">Hours</dt>
+    <dd class="col-sm-9">@Model.HoursContributed</dd>
+</dl>
+
+<form method="post" asp-action="LogHours">
+    <div class="mb-3">
+        <label>Log hours contributed</label>
+        <input class="form-control" name="hours" type="number" value="1" />
+    </div>
+    <button class="btn btn-primary" type="submit">Log Hours</button>
+</form>

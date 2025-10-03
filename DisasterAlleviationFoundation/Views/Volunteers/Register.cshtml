@@ -1,0 +1,10 @@
+﻿<h2>Register as Volunteer</h2>
+<form method="post">
+    <div class="mb-3"><label>Skills</label><input class="form-control" name="skills" /></div>
+    <div class="mb-3"><label>Availability</label><input class="form-control" name="availability" /></div>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-2">@ViewBag.Message</div>
+}
