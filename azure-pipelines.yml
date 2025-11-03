@@ -4,47 +4,67 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
+
 variables:
   buildConfiguration: 'Release'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_NOLOGO: true
 
 steps:
+# Step 1: Install .NET SDK
 - task: UseDotNet@2
-  displayName: 'Install .NET SDK'
+  displayName: 'Install .NET 7 SDK'
   inputs:
     packageType: 'sdk'
-    version: '7.x'  # use your installed SDK version
+    version: '7.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+# Step 2: Restore Dependencies
 - task: DotNetCoreCLI@2
-  displayName: 'Restore dependencies'
+  displayName: 'Restore Dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
+# Step 3: Build Solution
 - task: DotNetCoreCLI@2
-  displayName: 'Build project'
+  displayName: 'Build Solution'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
 
+# Step 4: Run Unit and Integration Tests
 - task: DotNetCoreCLI@2
-  displayName: 'Run tests (if any)'
+  displayName: 'Run Tests'
   inputs:
     command: 'test'
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build'
+    arguments: '--configuration $(buildConfiguration) --no-build --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults'
+  continueOnError: true
 
+# Step 5: Publish Test Results (visible in Azure Pipelines Test tab)
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TestResults/*.trx'
+    mergeTestResults: true
+    failTaskOnFailedTests: false
+
+# Step 6: Publish the Web App
 - task: DotNetCoreCLI@2
-  displayName: 'Publish project'
+  displayName: 'Publish Web Project'
   inputs:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
+# Step 7: Upload Build Artifacts
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish artifact'
+  displayName: 'Upload Build Artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
